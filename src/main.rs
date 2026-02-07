@@ -8,7 +8,17 @@ fn main() {
         let mut commandLine: String = Default::default();
         io::stdin().read_line(&mut commandLine).unwrap();
         let cmdLine = commandLine.trim().to_string();
-        let cmd  = cmdLine.split(" ");
-        println!("{:?}: command not found",cmd);
+        let cmd:Vec<&str>  = cmdLine.split(' ').collect();
+        match cmd[0]{
+            "exit"=> {
+                break;
+            },
+            "echo"=>{
+                println!("{}",&cmd[1..cmd.len()].join(" "))
+            },
+            _=>{
+                println!("{}:command not found",cmd[0]);
+            }
+        }
     }
 }
