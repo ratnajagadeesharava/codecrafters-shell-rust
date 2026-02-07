@@ -5,12 +5,10 @@ fn main() {
     loop {
         print!("$ ");
         io::stdout().flush().unwrap();
-        let mut command: String = Default::default();
-        io::stdin().read_line(&mut command).unwrap();
-        let cmd = command.trim().to_string();
-        if cmd == "exit"{
-            break ;
-        }
-        println!("{cmd}: command not found");
+        let mut commandLine: String = Default::default();
+        io::stdin().read_line(&mut commandLine).unwrap();
+        let cmdLine = commandLine.trim().to_string();
+        let cmd  = cmdLine.split(" ");
+        println!("{:?}: command not found",cmd);
     }
 }
