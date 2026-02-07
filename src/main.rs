@@ -17,7 +17,7 @@ fn main() {
                 println!("{}",&cmd[1..cmd.len()].join(" "))
             },
             _=>{
-                println!("{}:command not found",cmd[0]);
+                println!("{}: command not found",cmd[0]);
             }
         }
     }
