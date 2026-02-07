@@ -7,5 +7,5 @@ fn main() {
     io::stdout().flush().unwrap();
     let mut command:String =Default::default();
     io::stdin().read_line(&mut command).unwrap();
-    println!("{}: command not found",command);
+    println!("{command}: command not found");
 }
