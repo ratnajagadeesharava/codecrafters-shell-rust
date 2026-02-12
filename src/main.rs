@@ -1,9 +1,10 @@
-use std::collections::HashSet;
+use std::{collections::{HashMap, HashSet}, path};
 #[allow(unused_imports)]
 use std::io::{self, Write};
 use std::{env,fs};
 fn main() {
     let mut commands = HashSet::<String>::new();
+    let mut os_commands:HashMap<String,String> = HashMap::<String,String>::new();
     commands.insert("exit".to_string());
     commands.insert("type".to_string());
     commands.insert("echo".to_string());
@@ -12,9 +13,10 @@ fn main() {
         let path_str= entry.unwrap().path().to_string_lossy().to_string();
         let entries:Vec<&str> = path_str.split("/usr/bin/").collect();
         // println!("{:?}",entries[1]);
-        commands.insert(entries[1].to_string());
+        os_commands.insert(entries[1].to_string(), path_str);
+        
     }
-    // println!("{:?}",commands);
+    // println!("{:?}",os_commands);
     loop {
         
 
@@ -33,8 +35,12 @@ fn main() {
                 println!("{}",&cmd[1..cmd.len()].join(" "))
             },
             "type"=>{
+                println!("{}",os_commands.get(cmd[1]).unwrap());
                 if commands.contains(cmd[1]){
                     println!("{} is a shell builtin",cmd[1]);
+                }
+                else if os_commands.contains_key(cmd[1]){
+                    println!("{} is {}",cmd[1],os_commands.get(cmd[1]).unwrap());
                 }
                 else{
                     println!("{}: not found",cmd[1]);
