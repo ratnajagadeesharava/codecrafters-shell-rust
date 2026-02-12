@@ -35,7 +35,6 @@ fn main() {
                 println!("{}",&cmd[1..cmd.len()].join(" "))
             },
             "type"=>{
-                println!("{}",os_commands.get(cmd[1]).unwrap());
                 if commands.contains(cmd[1]){
                     println!("{} is a shell builtin",cmd[1]);
                 }
