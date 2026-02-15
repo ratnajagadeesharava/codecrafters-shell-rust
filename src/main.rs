@@ -19,7 +19,7 @@ fn main() {
                      let meta_data = fs::metadata(path_str).unwrap();
                     if meta_data.is_file(){
                         let perm = meta_data.permissions();
-                        println!("{:?}",perm);
+                        // println!("{:?}",perm);
                     }
                     
                 }
