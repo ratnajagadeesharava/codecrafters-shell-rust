@@ -11,7 +11,19 @@ fn main() {
     commands.insert("echo".to_string());
     match env::var_os("PATH"){
         Some(val)=>{
-            // println!("{:?}",val);
+            let path= val.to_string_lossy().to_string();
+            let items:Vec<&str> = path.split(':').collect();
+            for item in items{
+                for entry in fs::read_dir(item).unwrap(){
+                     let path_str= entry.unwrap().path().to_string_lossy().to_string();
+                     let meta_data = fs::metadata(path_str).unwrap();
+                    if meta_data.is_file(){
+                        let perm = meta_data.permissions();
+                        println!("{:?}",perm);
+                    }
+                    
+                }
+            }
         },
         None =>{
             println!("no path found");  
