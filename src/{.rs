@@ -13,7 +13,7 @@ fn main() {
             println!("{}",val.display());
         },
         None =>{
-            println!("no path found");
+            println!("no path foudn");
         }
 
     }
