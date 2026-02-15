@@ -1,5 +1,6 @@
+#![allow(warnings)]
 use std::{collections::{HashMap, HashSet}, path};
-#[allow(unused_imports)]
+
 use std::io::{self, Write};
 use std::{env,fs};
 fn main() {
@@ -10,28 +11,24 @@ fn main() {
     commands.insert("echo".to_string());
     match env::var_os("PATH"){
         Some(val)=>{
-            println!("{}",val.display());
+            // println!("{:?}",val);
         },
         None =>{
-            println!("no path found");
+            println!("no path found");  
         }
 
     }
     for entry in fs::read_dir("/usr/bin").unwrap(){
         let path_str= entry.unwrap().path().to_string_lossy().to_string();
         let entries:Vec<&str> = path_str.split("/usr/bin/").collect();
-        // println!("{:?}",entries[1]);
         os_commands.insert(entries[1].to_string(), path_str);
-        
     }
-    // println!("{:?}",os_commands);
     loop {
         print!("$ ");
         io::stdout().flush().unwrap();
         let mut commandLine: String = Default::default();
         io::stdin().read_line(&mut commandLine).unwrap();
         let cmdLine = commandLine.trim().to_string();
-        // println!("{:?}",cmdLine);
         let cmd:Vec<&str>  = cmdLine.split(' ').collect();
         match cmd[0]{
             "exit"=> {
