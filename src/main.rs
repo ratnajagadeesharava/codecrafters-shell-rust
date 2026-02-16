@@ -91,7 +91,7 @@ fn main() {
             }
             val  => {
                 if os_commands.contains_key(val){
-                    let err = exec::Command::new(os_commands.get(val).unwrap()).args(&cmd[1..argsLength]).exec();
+                    let err = exec::Command::new(val).args(&cmd[1..argsLength]).exec();
                     println!("error:{:?}",err);
 
                 }
