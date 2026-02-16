@@ -72,7 +72,7 @@ fn main() {
     commands.insert("type".to_string());
     commands.insert("echo".to_string());
     fill_path_commands(&mut os_commands);
-
+    fill_os_commands(&mut os_commands);
     loop {
         print!("$ ");
         io::stdout().flush().unwrap();
