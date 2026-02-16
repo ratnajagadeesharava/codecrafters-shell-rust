@@ -8,6 +8,9 @@ use std::{
 use std::io::{self, Write};
 use std::{env, fs};
 
+use exec::{Command, execvp};
+use nix::{sys::wait::wait, unistd::{ForkResult, fork}};
+
 fn fill_os_commands(os_commands: &mut HashMap<String, String>) {
     for entry in fs::read_dir("/usr/bin").unwrap() {
         let path_str = entry.unwrap().path().to_string_lossy().to_string();
@@ -91,8 +94,23 @@ fn main() {
             }
             val  => {
                 if os_commands.contains_key(val){
-                    let err = exec::Command::new(val).args(&cmd[1..argsLength]).exec();
-                    println!("error:{:?}",err);
+                    // let err = exec::Command::new(val).args(&cmd[1..argsLength]).exec();
+                    // println!("error:{:?}",err);
+                    match unsafe {fork()} {
+                        Ok(ForkResult::Parent { child })=>{
+                            wait().expect("wait failed");
+                        }
+                        Ok(ForkResult::Child)=>{
+                            let args = &cmd[1..argsLength];
+                            let status = Command::new(cmd[0]).args(args).exec();
+
+                        }
+                        
+                        Err(_)=>{
+                            println!("not an executable")
+                        }
+
+                    }
 
                 }
                 else{
