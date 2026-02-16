@@ -35,8 +35,6 @@ fn fill_path_commands(os_commands: &mut HashMap<String, String>) {
                                             .to_string_lossy()
                                             .to_string();
                                         os_commands.insert(fileName, path_str);
-                                        let fileName = Path::new(&path_str).file_name().unwrap().to_string_lossy().to_string();
-                                        os_commands.insert(fileName,path_str);
                                     }
                                 }
                             }
