@@ -71,8 +71,10 @@ fn main() {
     commands.insert("exit".to_string());
     commands.insert("type".to_string());
     commands.insert("echo".to_string());
+    commands.insert("history".to_string());
     fill_path_commands(&mut os_commands);
     fill_os_commands(&mut os_commands);
+    let mut history:Vec<String> = Vec::<String>::new();
     loop {
         print!("$ ");
         io::stdout().flush().unwrap();
@@ -80,6 +82,7 @@ fn main() {
         io::stdin().read_line(&mut commandLine).unwrap();
         let cmdLine = commandLine.trim().to_string();
         let cmd: Vec<&str> = cmdLine.split(' ').collect();
+        history.push(cmd[0].to_string());
         let argsLength = cmd.len();
         match cmd[0] {
             "exit" => {
@@ -91,6 +94,13 @@ fn main() {
             "type" => {
                 let val = type_cmd(&cmd, &commands, &os_commands);
                 println!("{val}");
+            }
+            "history"=>{
+                let mut result = String::new();
+                for item in &history{
+                    result  = result + &item +&String::from("\n");
+                }
+                println!("{result}");
             }
             val  => {
                 if os_commands.contains_key(val){
