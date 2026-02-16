@@ -1,6 +1,8 @@
 #![allow(warnings)]
 use std::{
-    collections::{HashMap, HashSet}, os::unix::fs::PermissionsExt, path::{self, Path}
+    collections::{HashMap, HashSet},
+    os::unix::fs::PermissionsExt,
+    path::{self, Path},
 };
 
 use std::io::{self, Write};
@@ -15,26 +17,23 @@ fn main() {
         Some(val) => {
             let path = val.to_string_lossy().to_string();
             let items: Vec<&str> = path.split(':').collect();
-
             for item in items {
-                
                 if let Ok(val) = fs::metadata(item) {
                     if val.is_dir() {
                         for entry in fs::read_dir(item).expect("not  directory") {
                             let path_str = entry.unwrap().path().to_string_lossy().to_string();
-                            let meta_data = fs::metadata(&path_str).unwrap();
-
-                            if meta_data.is_file() {
-                                let p = Path::new(&path_str);
-                                
-                                let perm = meta_data.permissions();
-                                
+                            if let Ok(meta_data) = fs::metadata(&path_str) {
+                                if meta_data.is_file() {
+                                    let perm = meta_data.permissions();
+                                    if perm.mode() & 0o111 != 0 {
+                                        let fileName = Path::new(&path_str).file_name().unwrap().to_string_lossy().to_string();
+                                        os_commands.insert(fileName,path_str);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-
-                // println!("{:?}",meta.is_dir());
             }
         }
         None => {
