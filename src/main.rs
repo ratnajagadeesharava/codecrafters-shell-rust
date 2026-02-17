@@ -100,7 +100,12 @@ fn main() {
                 let l = history.len();
                 for i in 0..l{
                     let val = (i+1).to_string() +"  ";
+                    if i!=l-1{
                     result  = result +&val+ &history[i] +&String::from("\n");
+                    }
+                    else{
+                        result  = result +&val+ &history[i];
+                    }
                 }
                 println!("{result}");
             }
