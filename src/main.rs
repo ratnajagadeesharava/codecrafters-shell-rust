@@ -98,7 +98,11 @@ fn main() {
             "history"=>{
                 let mut result = String::new();
                 let l = history.len();
-                for i in 0..l{
+                let mut start = 0;
+                if argsLength>1{
+                    start = l-cmd[1].parse::<usize>().unwrap();
+                }
+                for i in start..l{
                     let val = (i+1).to_string() +"  ";
                     if i!=l-1{
                     result  = result +&val+ &history[i] +&String::from("\n");
