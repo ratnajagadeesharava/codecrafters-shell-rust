@@ -82,7 +82,7 @@ fn main() {
         io::stdin().read_line(&mut commandLine).unwrap();
         let cmdLine = commandLine.trim().to_string();
         let cmd: Vec<&str> = cmdLine.split(' ').collect();
-        history.push(cmd[0].to_string());
+        history.push(cmdLine.clone());
         let argsLength = cmd.len();
         match cmd[0] {
             "exit" => {
@@ -97,8 +97,10 @@ fn main() {
             }
             "history"=>{
                 let mut result = String::new();
-                for item in &history{
-                    result  = result + &item +&String::from("\n");
+                let l = history.len();
+                for i in 0..l{
+                    let val = (i+1).to_string() +"  ";
+                    result  = result +&val+ &history[i] +&String::from("\n");
                 }
                 println!("{result}");
             }
